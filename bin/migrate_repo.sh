@@ -31,8 +31,6 @@ if [[ $rc != 0 ]]; then
     exit $rc;
 fi
 
-cvs2git --blobfile=$reponame-blob.dat --dumpfile=$reponame-dump.dat --username=cvs2git $cvsdir/$reponame
-
 # Perform migration
 cvs2git --blobfile=$reponame-blob.dat --dumpfile=$reponame-dump.dat --username=cvs2git $cvsdir/$reponame
 
