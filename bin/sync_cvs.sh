@@ -43,10 +43,9 @@ parent_commit=$cvs_last_commit
 
 for commit in $(git rev-list --reverse $cvs_last_commit..$head); do
     git cvsexportcommit -p -c $parent_commit $commit
-    #git rev-list --reverse $cvs_last_commit..$head | xargs -l1 git cvsexportcommit  -p -c
     rc=$?
     if [[ $rc != 0 ]]; then 
-        printf "Error committing changes: Commit $commit from parent $parent_commit\n"
+        printf "Error committing: Commit $commit from parent $parent_commit\n"
         exit $rc; 
     fi
     echo $commit > .gitsha

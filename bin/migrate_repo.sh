@@ -32,7 +32,10 @@ if [[ $rc != 0 ]]; then
 fi
 
 # Perform migration
-cvs2git --blobfile=$reponame-blob.dat --dumpfile=$reponame-dump.dat --username=cvs2git $cvsdir/$reponame
+cvs2git --blobfile=$reponame-blob.dat \
+        --dumpfile=$reponame-dump.dat \
+        --username=cvs2git \
+        $cvsdir/$reponame
 
 git init --bare $reponame.git
 cd $reponame.git
@@ -45,7 +48,11 @@ cd ..
 # Clone bare git repo, clean up resultant repository
 git clone $reponame.git
 cd $reponame
-git filter-branch --force --index-filter 'git rm --cached --ignore-unmatch ChangeLog **/ChangeLog' --prune-empty --tag-name-filter cat -- --all
+git filter-branch \
+    --force \
+    --index-filter 'git rm --cached --ignore-unmatch ChangeLog **/ChangeLog' \
+    --prune-empty \
+    --tag-name-filter cat -- --all
 cd ..
 
 # Cleanup
