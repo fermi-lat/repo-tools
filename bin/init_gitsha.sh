@@ -8,11 +8,18 @@ cvs_repo=$2
 # CVS repository. If that's the case, then
 # using sync_repo.sh should always succeed.
 
-
 if [ "$#" -ne 2 ]; then
     echo "Usage: init_gitsha.sh GIT_REPO CVS_REPO"
     exit 1;
 fi
+
+# Fix directories
+cd $git_repo
+git_repo=$(pwd)
+cd - &> /dev/null
+cd $cvs_repo
+cvs_repo=$(pwd)
+cd - &> /dev/null
 
 export GIT_DIR=$git_repo/.git
 
@@ -24,7 +31,7 @@ if [[ $rc != 0 ]]; then
     exit $rc;
 fi
 
-cvs diff &> /dev/null
+cvs status &> /dev/null
 rc=$?
 if [[ $rc != 0 ]]; then
     printf "CVS repo likely not configured correctly, check second argument\n"
