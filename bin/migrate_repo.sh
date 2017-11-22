@@ -35,7 +35,13 @@ fi
 cvs2git --blobfile=$reponame-blob.dat \
         --dumpfile=$reponame-dump.dat \
         --username=cvs2git \
+        --use-external-blob-generator \
+        --skip-cleanup \
+        --keywords-off \
         $cvsdir/$reponame
+
+#         --fallback-encoding=iso8859_15 \
+
 
 git init --bare $reponame.git
 cd $reponame.git
@@ -50,7 +56,7 @@ git clone $reponame.git
 cd $reponame
 git filter-branch \
     --force \
-    --index-filter 'git rm --cached --ignore-unmatch ChangeLog **/ChangeLog' \
+    --index-filter 'git rm -r --cached --ignore-unmatch ChangeLog */ChangeLog **/ChangeLog cmt */cmt **/cmt' \
     --prune-empty \
     --tag-name-filter cat -- --all
 cd ..
